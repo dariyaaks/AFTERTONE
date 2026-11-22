@@ -1,0 +1,254 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AFTERTONE — Мой дневник</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Marck+Script&family=Playfair+Display:ital,wght@0,400;0,500;1,400&display=swap&subset=cyrillic" rel="stylesheet">
+<style>
+:root{--bg:#f5f1ea;--ink:#3a3440;--soft:#5c5563;--muted:#8a8290;--btn:#a698bd;--btn-h:#8d7ea8;--line:#dcd6cf;--paper:#fdfcf8;--serif:"Playfair Display",serif;--sans:"Inter",Arial,sans-serif;--hand:"Marck Script",cursive}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 var(--sans);transition:background .6s}
+header{display:flex;justify-content:space-between;align-items:center;padding:18px 5vw;border-bottom:1px solid var(--line)}
+.logo{font:500 22px var(--serif);letter-spacing:.12em}.logo a{color:inherit;text-decoration:none}
+button,input,textarea,select{font:inherit;color:inherit}
+.btn{background:var(--btn);color:#fff;border:0;border-radius:14px;padding:12px 22px;cursor:pointer;transition:.25s}.btn:hover{background:var(--btn-h)}.btn:disabled{opacity:.6;cursor:wait}
+.link{background:none;border:0;color:var(--soft);cursor:pointer;text-decoration:underline}
+main{max-width:1100px;margin:0 auto;padding:32px 5vw 80px}
+h1,h2{font-family:var(--serif);font-weight:400;margin:0 0 8px}h1{font-size:clamp(30px,5vw,46px)}h1 em,h2 em{color:#8e7ba8}
+.hand{font-family:var(--hand);color:var(--muted);font-size:20px}
+.card{background:var(--paper);border:1px solid var(--line);border-radius:22px;padding:26px;margin:22px 0;box-shadow:0 8px 30px #3a34400d}
+label{display:block;font-size:13px;color:var(--muted);margin:14px 0 6px;letter-spacing:.04em}
+textarea,input[type=text],input[type=date],input[type=number],select{width:100%;border:1px solid var(--line);border-radius:12px;padding:11px 14px;background:#fff}
+textarea{min-height:120px;resize:vertical}.row{display:grid;grid-template-columns:1fr 1fr;gap:14px}@media(max-width:640px){.row{grid-template-columns:1fr}}
+.hits{display:grid;gap:6px;margin-top:8px}.hit{display:flex;gap:10px;align-items:center;padding:8px 10px;border:1px solid var(--line);border-radius:12px;background:#fff;cursor:pointer;text-align:left}.hit:hover,.hit.on{border-color:var(--btn);background:#f1edf7}.hit img{width:40px;height:40px;border-radius:8px}.hit small{color:var(--muted)}
+.thumbs{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}.thumbs img{width:64px;height:64px;object-fit:cover;border-radius:10px}
+.msg{margin-top:12px;color:#a04c4c}.live{margin-top:10px;font-size:13px;color:var(--muted)}.live b{display:inline-block;width:14px;height:14px;border-radius:50%;vertical-align:-2px;margin-right:4px}
+.otd{display:flex;gap:14px;align-items:center;cursor:pointer}.otd img{width:70px;height:70px;border-radius:14px;object-fit:cover}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:18px}
+.day{border-radius:18px;overflow:hidden;cursor:pointer;background:var(--paper);border:1px solid var(--line);transition:.25s}.day:hover{transform:translateY(-4px);box-shadow:0 12px 30px #3a34401a}
+.day .ph{height:170px;background-size:cover;background-position:center}.day div.t{padding:12px 14px}.day h3{margin:0;font:400 18px/1.25 var(--serif)}.day small{color:var(--muted)}
+/* просмотр воспоминания */
+#viewer{position:fixed;inset:0;z-index:50;display:none;overflow:auto;color:var(--tx,#222);background:var(--bg0,#eee)}
+#viewer.on{display:block}#viewer::before{content:"";position:fixed;inset:0;pointer-events:none;opacity:var(--grain,.15);mix-blend-mode:multiply;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='.9'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='.6'/%3E%3C/svg%3E");z-index:5}
+.vwrap{max-width:900px;margin:0 auto;padding:26px 5vw 80px;position:relative}
+.stage{position:relative;aspect-ratio:4/5;max-height:78vh;margin:0 auto;border-radius:6px;overflow:hidden;background:var(--bg1,#ddd);box-shadow:0 20px 60px #0004}
+.stage img{position:absolute;opacity:0;object-fit:cover}.stage.video img,.stage.slideshow img{inset:0;width:100%;height:100%}
+.stage .bar{position:absolute;left:0;right:0;height:0;background:#000;z-index:3;transition:height .5s}.bar.t{top:0}.bar.b{bottom:0}.stage.cine .bar{height:13%}
+.stage .q{position:absolute;left:8%;right:8%;bottom:18%;text-align:center;color:#fff;font:italic 400 clamp(18px,3.2vw,28px)/1.35 var(--serif);text-shadow:0 2px 14px #000b;z-index:4}.q span{opacity:0;transition:opacity .5s;margin-right:.3em}.q span.on{opacity:1}
+.stage .vg{position:absolute;inset:0;z-index:2;pointer-events:none;box-shadow:inset 0 0 120px 30px rgba(0,0,0,var(--vg,.2));transition:.6s}
+.ctrl{display:flex;gap:12px;justify-content:center;margin:18px 0;flex-wrap:wrap}.ctrl .btn{background:var(--ac,#a698bd)}
+.vt{text-align:center;margin-top:10px}.vt h1{font-family:var(--serif)}.vt .d{opacity:.7}
+.pass{margin-top:26px;display:grid;gap:12px}.pass div{border:1px solid color-mix(in srgb,var(--tx) 22%,transparent);border-radius:14px;padding:12px 16px;background:color-mix(in srgb,var(--bg0) 70%,#fff 30%)}.pass b{font-family:var(--serif)}.pass p{margin:4px 0 0;font-size:14px;opacity:.85}
+.x{position:fixed;top:14px;right:18px;z-index:9;background:#0000;border:0;font-size:30px;cursor:pointer;color:var(--tx)}
+.hidden{display:none!important}
+</style>
+</head>
+<body>
+<header><div class="logo"><a href="index.html">AFTERTONE</a></div><div style="display:flex;align-items:center;gap:10px"><span id="comp" class="hidden" style="display:inline-flex;align-items:center;gap:8px"><span id="compAv" style="width:34px;height:34px;border-radius:50%;background:#e8e1f0;display:grid;place-items:center;font:500 15px var(--serif);overflow:hidden"></span><span class="hand" id="bubble" style="max-width:260px;line-height:1.1"></span></span><span id="who" class="hand"></span> <button class="link" id="out">выйти</button></div></header>
+<main>
+  <h1>Как прошёл <em>твой день?</em></h1>
+  <p class="hand">расскажи, покажи и добавь песню — остальное соберём мы</p>
+  <div id="otd" class="card otd hidden"></div>
+
+  <section class="card">
+    <label for="text">Расскажи о дне</label>
+    <textarea id="text" placeholder="Гуляли по парку, всё в жёлтых листьях, было холодно, но мы пили какао и долго разговаривали…"></textarea>
+    <div style="display:flex;gap:10px;margin-top:8px;align-items:center"><button class="link" id="mic" type="button">🎙 надиктовать голосом</button><span class="live" id="live"></span></div>
+    <div class="row">
+      <div><label for="date">Дата</label><input type="date" id="date"></div>
+      <div><label for="format">Формат воспоминания</label><select id="format"><option value="video">Видео</option><option value="slideshow">Слайд-шоу</option><option value="collage">Коллаж</option></select></div>
+    </div>
+    <label for="photos">Фото дня (1–8)</label>
+    <input type="file" id="photos" accept="image/jpeg,image/png" multiple><div class="thumbs" id="thumbs"></div>
+    <label for="q">Песня дня</label>
+    <input type="text" id="q" placeholder="Найти песню: исполнитель или название"><div class="hits" id="hits"></div>
+    <div class="row"><div><label>Исполнитель</label><input type="text" id="artist"></div><div><label>Название</label><input type="text" id="song"></div></div>
+    <div class="row"><div><label>Жанр (необязательно)</label><input type="text" id="genre" placeholder="Jazz, Pop, Electronic…"></div><div><label>Темп, BPM (если знаешь)</label><input type="number" id="bpm" min="40" max="220"></div></div>
+    <div style="margin-top:20px"><button class="btn" id="make">Создать воспоминание</button></div>
+    <div class="msg" id="msg"></div>
+  </section>
+
+  <h2>Мой <em>дневник</em></h2>
+  <div class="grid" id="archive"></div>
+  <p class="hand" id="empty" style="display:none">Здесь появятся твои дни.</p>
+</main>
+
+<div id="viewer"><button class="x" id="close" aria-label="Закрыть">×</button><div class="vwrap">
+  <div class="stage" id="stage"><div class="bar t"></div><div class="bar b"></div><div class="vg"></div><div class="q" id="quote"></div></div>
+  <div class="ctrl"><button class="btn" id="play">▶ Смотреть и слушать</button><button class="btn" id="voice">🔊 Озвучить запись</button></div>
+  <div class="vt"><h1 id="vtitle"></h1><div class="d" id="vdate"></div></div>
+  <h2 style="text-align:center;margin-top:30px">Почему день выглядит так</h2>
+  <div class="pass" id="pass"></div>
+  <p class="d" style="text-align:center;opacity:.6;font-size:13px" id="disc"></p>
+</div></div>
+
+<script>
+const $ = (id) => document.getElementById(id);
+const token = localStorage.getItem('aftertone_token');
+if (!token) location.href = 'vhod.html';
+const api = async (path, opt = {}) => {
+  const r = await fetch('/api' + path, { ...opt, headers: { authorization: 'Bearer ' + token, ...(opt.json ? { 'content-type': 'application/json' } : {}) }, body: opt.json ? JSON.stringify(opt.json) : opt.body });
+  if (r.status === 401) { localStorage.removeItem('aftertone_token'); location.href = 'vhod.html'; }
+  const d = await r.json().catch(() => ({}));
+  if (!r.ok) throw new Error(d.error || 'Ошибка ' + r.status);
+  return d;
+};
+const fmtDate = (s) => new Date(s + 'T00:00:00').toLocaleDateString('ru-RU', { day: 'numeric', month: 'long', year: 'numeric' });
+$('out').onclick = () => { localStorage.removeItem('aftertone_token'); location.href = 'vhod.html'; };
+$('date').value = new Date().toISOString().slice(0, 10);
+const prof = JSON.parse(localStorage.getItem('aftertoneProfile') || '{}');
+const say = (t) => { if (prof.companion || prof.companionName) $('bubble').textContent = t; };
+if (prof.companion || prof.companionName) {
+  $('comp').classList.remove('hidden');
+  const nm = prof.companionName || ({ owl: 'Сова', cat: 'Кот', fox: 'Лисёнок', bunny: 'Кролик', bear: 'Медвежонок', deer: 'Оленёнок' }[prof.companion] || '');
+  $('compAv').innerHTML = prof.companion ? `<img src="images/companions/${prof.companion}.png" alt="" style="width:100%;height:100%;object-fit:cover" onerror="this.remove()">` : '';
+  $('compAv').append(nm.charAt(0));
+  say(nm + ' ждёт твой день');
+}
+api('/auth/me').then((d) => { $('who').textContent = d.user.displayName; const f = d.user.recommendedFormats?.[0]; if (f) $('format').value = f; });
+
+/* ---------- живой предпросмотр: фон страницы подстраивается под текст ---------- */
+let liveT;
+$('text').addEventListener('input', () => {
+  clearTimeout(liveT);
+  liveT = setTimeout(async () => {
+    const text = $('text').value;
+    if (text.trim().length < 5) return;
+    try {
+      const p = await api('/days/preview', { method: 'POST', json: { text, genre: $('genre').value, bpm: $('bpm').value } });
+      document.body.style.background = p.palette.bg;
+      $('live').innerHTML = `<b style="background:${p.palette.accent}"></b>атмосфера: ${p.mood.label} · приём: ${p.styleLabel}`;
+      say('похоже на день: ' + p.mood.label);
+    } catch {}
+  }, 700);
+});
+const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+if (!SR) $('mic').classList.add('hidden');
+else $('mic').onclick = () => { const r = new SR(); r.lang = 'ru-RU'; r.onresult = (e) => { $('text').value += (($('text').value && ' ') + e.results[0][0].transcript); $('text').dispatchEvent(new Event('input')); }; r.start(); $('mic').textContent = '🎙 слушаю…'; r.onend = () => ($('mic').textContent = '🎙 надиктовать голосом'); };
+
+/* ---------- фото и песня ---------- */
+$('photos').onchange = (e) => { $('thumbs').innerHTML = ''; [...e.target.files].slice(0, 8).forEach((f) => { const i = new Image(); i.src = URL.createObjectURL(f); $('thumbs').append(i); }); };
+let chosen = null, qT;
+$('q').addEventListener('input', () => {
+  clearTimeout(qT);
+  qT = setTimeout(async () => {
+    if ($('q').value.trim().length < 2) return ($('hits').innerHTML = '');
+    try {
+      const { items } = await api('/music/search?q=' + encodeURIComponent($('q').value));
+      $('hits').innerHTML = '';
+      items.slice(0, 5).forEach((t) => {
+        const b = document.createElement('button');
+        b.type = 'button'; b.className = 'hit';
+        b.innerHTML = `<img src="${t.artwork || ''}" alt=""><span>${t.title}<br><small>${t.artist} · ${t.genre || ''} ${t.year || ''}</small></span>`;
+        b.onclick = () => { chosen = t; $('artist').value = t.artist; $('song').value = t.title; $('genre').value = t.genre || ''; [...$('hits').children].forEach((x) => x.classList.remove('on')); b.classList.add('on'); };
+        $('hits').append(b);
+      });
+    } catch (e) { $('hits').innerHTML = `<small class="hand">${e.message}</small>`; }
+  }, 500);
+});
+
+$('make').onclick = async () => {
+  $('msg').textContent = '';
+  const files = [...$('photos').files].slice(0, 8);
+  if ($('text').value.trim().length < 5) return ($('msg').textContent = 'Расскажи о дне хотя бы парой слов.');
+  if (!files.length) return ($('msg').textContent = 'Добавь хотя бы одно фото.');
+  const fd = new FormData();
+  fd.set('text', $('text').value); fd.set('date', $('date').value); fd.set('format', $('format').value);
+  const m = { title: $('song').value, artist: $('artist').value, genre: $('genre').value, bpm: $('bpm').value };
+  if (chosen && chosen.title === m.title) Object.assign(m, { previewUrl: chosen.previewUrl, year: chosen.year, url: chosen.url, source: 'search' });
+  fd.set('music', JSON.stringify(m));
+  files.forEach((f) => fd.append('photos', f));
+  $('make').disabled = true; $('make').textContent = 'Собираем воспоминание…';
+  try {
+    const { day } = await api('/days', { method: 'POST', body: fd });
+    await loadArchive();
+    openDay(day);
+  } catch (e) { $('msg').textContent = e.message; }
+  $('make').disabled = false; $('make').textContent = 'Создать воспоминание';
+};
+
+/* ---------- архив и «в этот день» ---------- */
+async function loadArchive() {
+  const { items } = await api('/days');
+  $('archive').innerHTML = ''; $('empty').style.display = items.length ? 'none' : 'block';
+  items.forEach((c) => {
+    const d = document.createElement('div'); d.className = 'day';
+    d.innerHTML = `<div class="ph" style="background-image:url('${c.cover}'),linear-gradient(${(c.gradient || ['#ddd', '#bbb']).join(',')})"></div><div class="t"><h3>${c.title}</h3><small>${fmtDate(c.date)} · ${c.moodLabel || ''}</small></div>`;
+    d.onclick = async () => openDay((await api('/days/' + c.id)).day);
+    $('archive').append(d);
+  });
+  try {
+    const { items: o } = await api('/days/on-this-day');
+    if (o.length) { const x = o[0]; $('otd').classList.remove('hidden'); $('otd').innerHTML = `<img src="${x.day.cover}" alt=""><div><div class="hand">${x.label} в этот день</div><h2 style="margin:0;font-size:24px">${x.day.title}</h2><span class="link">вспомнить</span></div>`; $('otd').onclick = async () => openDay((await api('/days/' + x.day.id)).day); }
+  } catch {}
+}
+loadArchive();
+
+/* ---------- просмотр воспоминания: сцена рисуется по параметрам с сервера ---------- */
+let anims = [], timers = [], ctx, gainNode, lowpass, audioEl, cur;
+const stopAll = () => { anims.forEach((a) => a.cancel()); anims = []; timers.forEach(clearTimeout); timers = []; if (audioEl) { audioEl.pause(); audioEl.currentTime = 0; } window.speechSynthesis?.cancel(); $('stage').classList.remove('cine'); $('quote').innerHTML = ''; $('stage').querySelector('.vg').style.setProperty('--vg', cur?.scene.motion.vignette ?? 0.2); };
+
+function openDay(day) {
+  stopAll(); cur = day;
+  const s = day.scene, v = $('viewer'), st = $('stage');
+  v.style.setProperty('--bg0', s.palette.bg); v.style.setProperty('--bg1', s.palette.surface); v.style.setProperty('--tx', s.palette.text); v.style.setProperty('--ac', s.palette.accent); v.style.setProperty('--grain', s.motion.grain);
+  v.style.backgroundImage = `radial-gradient(circle at 20% 0%, ${s.palette.gradient[0]}55, transparent 60%), radial-gradient(circle at 90% 100%, ${s.palette.gradient[1]}55, transparent 55%)`;
+  st.className = 'stage ' + day.format; st.querySelectorAll('img').forEach((i) => i.remove());
+  st.querySelector('.vg').style.setProperty('--vg', s.motion.vignette);
+  const imgs = day.photos.map((p) => { const i = new Image(); i.src = p.url; i.alt = ''; i.style.filter = s.filters.css; st.prepend(i); return i; });
+  if (day.format === 'collage') s.collage.items.forEach((c) => { const i = imgs[c.index]; Object.assign(i.style, { left: c.x * 100 + '%', top: c.y * 100 + '%', width: c.w * 100 + '%', height: c.h * 100 + '%', opacity: 1, transform: `rotate(${c.rotate}deg)`, boxShadow: '0 8px 24px #0004', zIndex: c.z }); });
+  else imgs.forEach((i) => (i.style.opacity = 0));
+  $('vtitle').textContent = day.title; $('vdate').textContent = fmtDate(day.date) + ' · ' + s.styleLabel; $('disc').textContent = s.disclaimer;
+  $('pass').innerHTML = day.passport.map((p) => `<div><b>${p.title}</b><p>${p.observation}</p><p><i>→ ${p.effect}</i></p><p>${p.why}</p></div>`).join('');
+  const src = s.audio.music.src;
+  $('voice').classList.toggle('hidden', !('speechSynthesis' in window));
+  audioEl = null;
+  if (src) { audioEl = new Audio(); audioEl.crossOrigin = 'anonymous'; audioEl.src = src; audioEl.loop = true; }
+  v.classList.add('on'); v.scrollTop = 0; document.body.style.overflow = 'hidden';
+}
+
+function duck(on) {
+  if (!gainNode) return;
+  const d = cur.scene.audio.ducking, t = ctx.currentTime;
+  gainNode.gain.setTargetAtTime(on ? d.duckGain : 0.9, t, (on ? d.attackMs : d.releaseMs) / 3000);
+  lowpass.frequency.setTargetAtTime(on ? d.lowpassHz : 20000, t, 0.2);
+}
+function connectAudio() {
+  if (!audioEl || audioEl._wired) return;
+  try {
+    ctx = ctx || new AudioContext();
+    const srcNode = ctx.createMediaElementSource(audioEl);
+    lowpass = ctx.createBiquadFilter(); lowpass.type = 'lowpass'; lowpass.frequency.value = 20000;
+    gainNode = ctx.createGain(); gainNode.gain.value = 0.9;
+    srcNode.connect(lowpass).connect(gainNode).connect(ctx.destination);
+    audioEl._wired = true;
+  } catch {}
+}
+
+function playScene() {
+  stopAll();
+  const s = cur.scene, st = $('stage'), imgs = [...st.querySelectorAll('img')].reverse(), T = s.motion.durationSeconds * 1000;
+  if (audioEl) { connectAudio(); ctx && ctx.resume(); audioEl.play().catch(() => {}); }
+  if (cur.format !== 'collage') {
+    s.timeline.forEach((seg) => {
+      const k = seg.kenBurns, f = `scale(${k.fromScale}) translate(${k.fromX * 100}%,${k.fromY * 100}%)`, t = `scale(${k.toScale}) translate(${k.toX * 100}%,${k.toY * 100}%)`;
+      anims.push(imgs[seg.index].animate([{ opacity: 0, transform: f }, { opacity: 1, offset: 0.15 }, { opacity: 1, offset: 0.85 }, { opacity: 0, transform: t }], { duration: seg.duration * 1000 + 600, delay: seg.start * 1000, fill: 'both' }));
+    });
+  }
+  const q = s.audio.quote;
+  if (q) {
+    timers.push(setTimeout(() => {
+      st.classList.add('cine'); duck(true); st.querySelector('.vg').style.setProperty('--vg', s.audio.cinematic.vignetteTo);
+      const words = q.text.split(/\s+/); $('quote').innerHTML = words.map((w) => `<span>${w}</span>`).join('');
+      words.forEach((_, i) => timers.push(setTimeout(() => $('quote').children[i]?.classList.add('on'), (i * q.durationSec * 1000 * 0.8) / words.length)));
+      timers.push(setTimeout(() => { st.classList.remove('cine'); duck(false); $('quote').innerHTML = ''; st.querySelector('.vg').style.setProperty('--vg', s.motion.vignette); }, q.durationSec * 1000));
+    }, q.startAt * 1000));
+  }
+  timers.push(setTimeout(playScene, T + 800));
+}
+$('play').onclick = playScene;
+$('voice').onclick = () => { speechSynthesis.cancel(); const u = new SpeechSynthesisUtterance(cur.text), v = cur.scene.audio.voice; u.lang = v.lang; u.rate = v.rate; u.pitch = v.pitch; u.onstart = () => duck(true); u.onend = () => duck(false); speechSynthesis.speak(u); if (audioEl && audioEl.paused) { connectAudio(); ctx && ctx.resume(); audioEl.play().catch(() => {}); } };
+$('close').onclick = () => { stopAll(); $('viewer').classList.remove('on'); document.body.style.overflow = ''; };
+</script>
+</body>
+</html>

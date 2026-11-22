@@ -1,0 +1,26 @@
+{
+  "name": "memory-diary-backend",
+  "version": "1.0.0",
+  "description": "Бэкенд дневника-воспоминаний (ArtTech): анализ дня, сцена, архив, соцчасть",
+  "type": "module",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node --disable-warning=ExperimentalWarning src/server.js",
+    "dev": "node --watch --disable-warning=ExperimentalWarning src/server.js",
+    "seed": "node scripts/seed.js",
+    "test": "node --test test/*.test.js"
+  },
+  "engines": { "node": ">=22.13" },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "express": "^4.21.1",
+    "jsonwebtoken": "^9.0.2",
+    "multer": "^2.0.0",
+    "jpeg-js": "^0.4.4",
+    "pngjs": "^7.0.0"
+  },
+  "optionalDependencies": {
+    "sharp": "^0.33.5"
+  }
+}

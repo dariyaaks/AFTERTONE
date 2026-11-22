@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#f6f2ea">
+  <title>AFTERTONE — Создание профиля</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600&family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="onboarding.css">
+</head>
+<body>
+  <div class="page-shell">
+    <header class="topbar">
+      <a class="brand" href="index.html" aria-label="AFTERTONE — главная">AFTERTONE<span class="brand-dot">.</span></a>
+      <span class="topbar-note">ТВОЁ ЛИЧНОЕ ПРОСТРАНСТВО</span>
+      <a class="exit-link" href="index.html" id="exit-link">Выйти</a>
+    </header>
+
+    <main class="onboarding-layout">
+      <aside class="intro-column">
+        <div class="intro-kicker"><span class="kicker-line"></span> НЕБОЛЬШОЕ ЗНАКОМСТВО</div>
+        <h1>Пусть здесь<br>будет <em>по-твоему.</em></h1>
+        <p class="intro-copy">Пара простых шагов — и у тебя появится своё место для моментов, мыслей и историй.</p>
+
+        <div class="paper-note">
+          <span class="paper-note-mark">«</span>
+          <p>Самые обычные дни<br>тоже становятся<br>воспоминаниями.</p>
+          <span class="paper-note-sign">aftertone notes</span>
+        </div>
+        <div class="intro-bottom">
+          <span class="tiny-star">✳</span>
+          <span>Маленькие моменты. Большие чувства.</span>
+        </div>
+      </aside>
+
+      <section class="form-column" aria-label="Настройка профиля">
+        <div class="form-topline">
+          <span id="step-label">ШАГ 01 / 03</span>
+          <span id="step-caption">ТВОЙ ПРОФИЛЬ</span>
+        </div>
+        <div class="progress-track" aria-hidden="true">
+          <span class="progress-fill" id="progress-fill"></span>
+        </div>
+
+       
+        <section class="step-panel active" data-step="0">
+          <div class="section-eyebrow">СНАЧАЛА — ТЫ</div>
+          <h2>Давай познакомимся</h2>
+          <p class="section-description">Как к тебе обращаться? Заполни несколько деталей, чтобы сделать пространство личным.</p>
+
+          <div class="avatar-upload-row">
+            <label class="avatar-upload" for="profile-image">
+              <img id="avatar-preview" alt="Предпросмотр аватара" hidden>
+              <span class="avatar-placeholder" id="avatar-placeholder">
+                <svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="11" r="5.2"/><path d="M5.5 27c.9-5.2 4.8-8 10.5-8s9.6 2.8 10.5 8"/></svg>
+              </span>
+              <span class="avatar-plus">+</span>
+            </label>
+            <div class="avatar-copy">
+              <label for="profile-image" class="upload-title">Добавить фотографию</label>
+              <span>Это необязательно — можно вернуться позже.</span>
+              <input type="file" id="profile-image" accept="image/png,image/jpeg,image/webp" hidden>
+            </div>
+          </div>
+
+          <div class="field-group">
+            <label for="display-name">Как тебя зовут?</label>
+            <input id="display-name" type="text" maxlength="30" placeholder="Твоё имя или никнейм" autocomplete="nickname">
+            <span class="field-error" id="name-error"></span>
+          </div>
+
+          <div class="field-group">
+            <div class="label-line">
+              <label for="about-you">Немного о себе</label>
+              <span class="optional-label">НЕОБЯЗАТЕЛЬНО</span>
+            </div>
+            <textarea id="about-you" rows="3" maxlength="120" placeholder="Например, люблю фотографировать, слушать музыку и замечать детали..."></textarea>
+          </div>
+        </section>
+
+       
+        <section class="step-panel" data-step="1">
+          <div class="section-eyebrow">ТВОЙ МАЛЕНЬКИЙ СПУТНИК</div>
+          <h2>Выбери компаньона</h2>
+          <p class="section-description">Он будет жить в твоём пространстве AFTERTONE, помогать ориентироваться и сопровождать тебя в создании воспоминаний.</p>
+
+          <div class="companion-grid" id="companion-grid">
+            <button class="companion-card" type="button" data-companion="owl" aria-pressed="false">
+              <span class="companion-art art-owl"><img src="images/companions/owl.png" alt="Сова" onerror="this.style.display='none'"><span class="art-fallback">С</span></span>
+              <span class="companion-name">Сова</span>
+              <span class="companion-description">Наблюдательная и мудрая</span>
+              <span class="selected-mark">Выбрано</span>
+            </button>
+            <button class="companion-card" type="button" data-companion="cat" aria-pressed="false">
+              <span class="companion-art art-cat"><img src="images/companions/cat.png" alt="Кот" onerror="this.style.display='none'"><span class="art-fallback">К</span></span>
+              <span class="companion-name">Кот</span>
+              <span class="companion-description">Спокойный и независимый</span>
+              <span class="selected-mark">Выбрано</span>
+            </button>
+            <button class="companion-card" type="button" data-companion="fox" aria-pressed="false">
+              <span class="companion-art art-fox"><img src="images/companions/fox.png" alt="Лисёнок" onerror="this.style.display='none'"><span class="art-fallback">Л</span></span>
+              <span class="companion-name">Лисёнок</span>
+              <span class="companion-description">Любознательный и творческий</span>
+              <span class="selected-mark">Выбрано</span>
+            </button>
+            <button class="companion-card" type="button" data-companion="bunny" aria-pressed="false">
+              <span class="companion-art art-bunny"><img src="images/companions/bunny.png" alt="Кролик" onerror="this.style.display='none'"><span class="art-fallback">К</span></span>
+              <span class="companion-name">Кролик</span>
+              <span class="companion-description">Нежный и заботливый</span>
+              <span class="selected-mark">Выбрано</span>
+            </button>
+            <button class="companion-card" type="button" data-companion="bear" aria-pressed="false">
+              <span class="companion-art art-bear"><img src="images/companions/bear.png" alt="Медвежонок" onerror="this.style.display='none'"><span class="art-fallback">М</span></span>
+              <span class="companion-name">Медвежонок</span>
+              <span class="companion-description">Добрый и надёжный</span>
+              <span class="selected-mark">Выбрано</span>
+            </button>
+            <button class="companion-card" type="button" data-companion="deer" aria-pressed="false">
+              <span class="companion-art art-deer"><img src="images/companions/deer.png" alt="Оленёнок" onerror="this.style.display='none'"><span class="art-fallback">О</span></span>
+              <span class="companion-name">Оленёнок</span>
+              <span class="companion-description">Тихий и внимательный</span>
+              <span class="selected-mark">Выбрано</span>
+            </button>
+          </div>
+          <span class="field-error companion-error" id="companion-error"></span>
+
+          <div class="companion-naming">
+            <div>
+              <label for="companion-name">Хочешь дать ему имя?</label>
+              <p>Можно оставить это поле пустым.</p>
+            </div>
+            <input id="companion-name" type="text" maxlength="20" placeholder="Например, Оли">
+          </div>
+        </section>
+
+        
+        <section class="step-panel" data-step="2">
+          <div class="section-eyebrow">ТО, ЧТО ТЕБЕ БЛИЗКО</div>
+          <h2>Что тебе нравится?</h2>
+          <p class="section-description">Выбери несколько тем. Они помогут нам сделать твоё пространство чуть более личным.</p>
+
+          <div class="interest-list" id="interest-list">
+            <button type="button" class="interest-chip" data-interest="Музыка"><span>♪</span> Музыка</button>
+            <button type="button" class="interest-chip" data-interest="Фотография"><span>▧</span> Фотография</button>
+            <button type="button" class="interest-chip" data-interest="Путешествия"><span>↗</span> Путешествия</button>
+            <button type="button" class="interest-chip" data-interest="Искусство"><span>✳</span> Искусство</button>
+            <button type="button" class="interest-chip" data-interest="Книги"><span>⌑</span> Книги</button>
+            <button type="button" class="interest-chip" data-interest="Природа"><span>❋</span> Природа</button>
+            <button type="button" class="interest-chip" data-interest="Кино"><span>▣</span> Кино</button>
+            <button type="button" class="interest-chip" data-interest="Письмо"><span>✎</span> Письмо</button>
+            <button type="button" class="interest-chip" data-interest="Мода"><span>◇</span> Мода</button>
+            <button type="button" class="interest-chip" data-interest="Повседневность"><span>☼</span> Повседневность</button>
+          </div>
+          <p class="selection-hint"><span id="interest-count">0</span> выбрано · Можно пропустить этот шаг</p>
+
+          <div class="last-note">
+            <span class="last-note-flower">✳</span>
+            <p>Необязательно выбирать что-то особенное. Иногда любимая чашка чая — уже целая история.</p>
+          </div>
+        </section>
+
+        
+        <section class="step-panel completion-panel" data-step="3">
+          <div class="completion-art">
+            <span class="completion-spark spark-one">✳</span>
+            <span class="completion-spark spark-two">✧</span>
+            <div class="completion-circle"><span id="completion-initial">А</span></div>
+          </div>
+          <div class="section-eyebrow">ВСЁ ГОТОВО</div>
+          <h2>Твоё пространство<br><em>ждёт тебя.</em></h2>
+          <p class="section-description" id="completion-copy">Теперь здесь будет место для историй, к которым захочется возвращаться.</p>
+          <div class="completion-summary">
+            <span class="summary-label">ТВОЙ КОМПАНЬОН</span>
+            <strong id="summary-companion">Сова</strong>
+            <span id="summary-companion-name">Будет рядом с тобой.</span>
+          </div>
+        </section>
+
+        <div class="form-actions" id="form-actions">
+          <button type="button" class="back-button" id="back-button" disabled>Назад</button>
+          <button type="button" class="next-button" id="next-button">Продолжить <span>→</span></button>
+        </div>
+        <button type="button" class="finish-button hidden" id="finish-button">Перейти в AFTERTONE <span>→</span></button>
+        <p class="form-footnote" id="form-footnote">Настройки можно будет изменить в любой момент.</p>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <span>AFTERTONE © 2026</span>
+      <span>Создано с теплом и вниманием.</span>
+    </footer>
+  </div>
+  <script src="api.js"></script>
+  <script src="onboarding.js"></script>
+</body>
+</html>

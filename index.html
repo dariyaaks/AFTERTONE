@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AFTERTONE — Memory Archive</title>
+  <meta name="description" content="Место, где фотографии, мысли и музыка становятся частью твоей истории.">
+
+ 
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Marck+Script&family=Playfair+Display:ital,wght@0,400;0,500;1,400&display=swap&subset=cyrillic" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="i-sparkle" viewBox="0 0 24 24"><path d="M12 2C12.8 8 16 11.2 22 12C16 12.8 12.8 16 12 22C11.2 16 8 12.8 2 12C8 11.2 11.2 8 12 2Z" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></symbol>
+    <symbol id="i-sparkle-plus" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round" stroke-linecap="round"><path transform="translate(0 3) scale(.82)" d="M12 2C12.8 8 16 11.2 22 12C16 12.8 12.8 16 12 22C11.2 16 8 12.8 2 12C8 11.2 11.2 8 12 2Z"/><path d="M20 1.5v5M17.5 4h5"/></g></symbol>
+    <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M3 12h17M14 5.5l6.5 6.5-6.5 6.5" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-arrow-ne" viewBox="0 0 24 24"><path d="M5 19L19 5M7 5h12v12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-arrow-down" viewBox="0 0 24 24"><path d="M12 3v17M5.5 14l6.5 6.5 6.5-6.5" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-lock" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="10.5" width="14" height="10" rx="2.8"/><path d="M8 10.5V8a4 4 0 0 1 8 0v2.5"/><path d="M12 14.5v2"/></g></symbol>
+    <symbol id="i-heart" viewBox="0 0 24 24"><path d="M12 20.5S3.5 15.3 3.5 9.6A4.6 4.6 0 0 1 12 7.2a4.6 4.6 0 0 1 8.5 2.4c0 5.7-8.5 10.9-8.5 10.9z" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></symbol>
+    <symbol id="i-music" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V6l10-2.5V16"/><circle cx="6.5" cy="18" r="2.5"/><circle cx="16.5" cy="16" r="2.5"/><path d="M9 10l10-2.5"/></g></symbol>
+    <symbol id="i-grid" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"><rect x="3.5" y="3.5" width="7" height="7" rx="1.4"/><rect x="13.5" y="3.5" width="7" height="7" rx="1.4"/><rect x="3.5" y="13.5" width="7" height="7" rx="1.4"/><rect x="13.5" y="13.5" width="7" height="7" rx="1.4"/></g></symbol>
+    <symbol id="i-play" viewBox="0 0 24 24"><path d="M7 4.5l12 7.5-12 7.5z" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></symbol>
+    <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 4v16M4 12h16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></symbol>
+  </defs>
+</svg>
+
+
+<section class="hero" id="about">
+  <header class="header">
+    <a class="logo" href="#about" aria-label="AFTERTONE">
+      <span>AFTERTONE</span>
+      <svg class="ic logo__star"><use href="#i-sparkle-plus"/></svg>
+    </a>
+
+    <nav class="nav" aria-label="Основная навигация">
+      <a href="#about">О проекте</a>
+      <a href="#features">Возможности</a>
+      <a href="#how">Как это работает</a>
+    </nav>
+
+    <div class="header__actions">
+      <a class="link-login" href="vhod.html">Войти</a>
+      <a class="btn btn--header" href="vhod.html">
+        <span>Начать</span>
+        <svg class="ic"><use href="#i-arrow"/></svg>
+      </a>
+    </div>
+  </header>
+
+  <div class="hero__grid">
+    <div class="hero__text">
+      <p class="eyebrow"><i class="dot"></i>Твоя жизнь. Твои моменты.</p>
+
+      <h1 class="hero__title">
+        Не всё важное<br>
+        хочется <em class="hl">забывать.
+          <svg class="hl__line" viewBox="0 0 450 30" preserveAspectRatio="none" aria-hidden="true">
+            <path d="M2 24 C 80 12, 220 8, 448 12" fill="none" stroke="#b5a8cb" stroke-width="2" stroke-linecap="round"/>
+            <path d="M52 28 C 160 22, 300 20, 404 22" fill="none" stroke="#b5a8cb" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </em>
+      </h1>
+
+      <p class="hero__lead">
+        Место, где фотографии, мысли и музыка<br>
+        становятся частью твоей истории.
+      </p>
+
+      <div class="hero__cta">
+        <a class="btn btn--lg" href="vhod.html">
+          <span>Создать своё пространство</span>
+          <svg class="ic"><use href="#i-arrow"/></svg>
+        </a>
+        <a class="link-more" href="#how">
+          <span>Узнать больше</span>
+          <svg class="ic"><use href="#i-arrow-ne"/></svg>
+        </a>
+      </div>
+
+      <p class="hero__note">
+        <svg class="ic"><use href="#i-sparkle"/></svg>
+        Не для ленты. Для тебя.
+      </p>
+    </div>
+
+
+    <div class="collage" aria-label="Коллаж воспоминаний">
+      <svg class="ic collage__star"><use href="#i-sparkle"/></svg>
+
+      <figure class="polaroid p-forest">
+        <span class="tape tape--forest"></span>
+        <div class="polaroid__photo ph-forest"></div>
+        <figcaption>дышать</figcaption>
+      </figure>
+
+      <figure class="polaroid p-sunset">
+        <div class="polaroid__photo ph-sunset"></div>
+        <figcaption>не спешить</figcaption>
+      </figure>
+
+      <figure class="polaroid p-beach">
+        <span class="tape tape--beach"></span>
+        <div class="polaroid__photo ph-beach"></div>
+        <figcaption>то самое лето</figcaption>
+      </figure>
+
+      <figure class="polaroid p-coffee">
+        <div class="polaroid__photo ph-coffee"></div>
+        <figcaption>обычный вторник</figcaption>
+      </figure>
+
+      <figure class="polaroid p-road">
+        <div class="polaroid__photo ph-road"></div>
+        <figcaption>с ними</figcaption>
+      </figure>
+
+      <svg class="collage__arrow" viewBox="0 0 120 70" aria-hidden="true">
+        <path d="M6 2 C 4 40, 30 62, 70 56 M60 44 L 100 58 L 66 68" fill="none" stroke="#a89bc0" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <svg class="ic collage__star2"><use href="#i-sparkle-plus"/></svg>
+      <p class="collage__note hand">из маленького — целое</p>
+    </div>
+  </div>
+</section>
+
+
+<section class="about" id="features">
+  <div class="strip">
+    <span>Личный архив того, что чувствуешь</span>
+    <span class="strip__mid">Листай, вспоминай <svg class="ic"><use href="#i-arrow-down"/></svg></span>
+    <span>Создано для жизни, а не для лайков</span>
+  </div>
+
+  <div class="about__inner">
+    <p class="eyebrow eyebrow--center"><i class="dot"></i>Больше, чем просто архив</p>
+
+    <h2 class="h-xl">
+      <svg class="ic h-star h-star--left"><use href="#i-sparkle-plus"/></svg>
+      У каждого момента<br>
+      есть <em>своя история.</em>
+    </h2>
+
+    <p class="about__lead">
+      Случайный кадр, песня, которая играла в наушниках.<br>
+      Мысль, которую не хочется потерять.
+    </p>
+    <p class="about__sub">
+      AFTERTONE собирает их вместе — в пространство, где можно<br>
+      быть собой, чувствовать и помнить. Без оценок и чужих ожиданий.
+    </p>
+
+    <ul class="badges">
+      <li><svg class="ic"><use href="#i-lock"/></svg>Только твоё</li>
+      <li><svg class="ic"><use href="#i-heart"/></svg>Без лайков и сравнений</li>
+      <li><svg class="ic"><use href="#i-sparkle"/></svg>В твоём ритме</li>
+    </ul>
+  </div>
+</section>
+
+<section class="steps" id="how">
+  <div class="steps__head">
+    <div>
+      <p class="eyebrow"><i class="dot"></i>Проще, чем кажется</p>
+      <h2 class="h-lg">Жизнь происходит.<br><em>Сохраняй её.</em></h2>
+    </div>
+    <p class="steps__intro">
+      Не нужно подбирать идеальные слова.<br>
+      Начни с того, что есть.
+    </p>
+  </div>
+
+  <div class="steps__grid">
+   
+    <article class="step">
+      <div class="step__panel panel--sand">
+        <div class="mini-back"></div>
+        <figure class="mini-polaroid mp-coffee">
+          <div class="ph-coffee"></div>
+        </figure>
+        <span class="plus-btn"><svg class="ic"><use href="#i-plus"/></svg></span>
+        <div class="music-tag"><svg class="ic"><use href="#i-music"/></svg>саундтрек этого дня</div>
+      </div>
+      <h3 class="step__title"><sup>01</sup>Добавь материалы</h3>
+      <p class="step__text">Фото, мысль, любимый трек. <br>Всё, из чего складывается твой день.</p>
+    </article>
+
+ 
+    <article class="step">
+      <div class="step__panel panel--lilac">
+        <div class="note-paper">
+          <span class="tape tape--note"></span>
+          <p class="hand note-paper__title">пусть останется здесь</p>
+          <i class="note-paper__line l1"></i>
+          <i class="note-paper__line l2"></i>
+          <div class="swatches"><i style="--c:#c9b9dc"></i><i style="--c:#c3d0be"></i><i style="--c:#e0cbbd"></i><i style="--c:#bfc9d8"></i></div>
+          <svg class="ic note-paper__heart"><use href="#i-heart"/></svg>
+          <svg class="ic note-paper__star"><use href="#i-sparkle-plus"/></svg>
+        </div>
+      </div>
+      <h3 class="step__title"><sup>02</sup>Создай воспоминание</h3>
+      <p class="step__text">AFTERTONE объединит твои материалы<br>в красивую визуальную историю.</p>
+    </article>
+
+
+    <article class="step">
+      <div class="step__panel panel--sage">
+        <div class="lilac-sheet"></div>
+        <figure class="mini-polaroid mp-beach">
+          <div class="ph-beach"></div>
+          <figcaption class="hand">а помнишь?..</figcaption>
+        </figure>
+        <span class="date-stamp">12 августа, 2025</span>
+      </div>
+      <h3 class="step__title"><sup>03</sup>Пересматривай</h3>
+      <p class="step__text">Возвращайся к важному.<br>Замечай, сколько всего уже было.</p>
+    </article>
+  </div>
+</section>
+
+
+<section class="library">
+  <div class="library__head">
+    <div>
+      <p class="eyebrow"><i class="dot"></i>Библиотека воспоминаний</p>
+      <h2 class="h-lg">Воспоминания<br>в <em>своём порядке.</em></h2>
+    </div>
+    <div class="library__side">
+      <p>Не только по датам, но по чувствам!<br>Потому что иногда «счастье» —<br>точнее, чем «июль».</p>
+      <p class="hand library__hand">у каждого чувства есть место</p>
+    </div>
+  </div>
+
+  <div class="folders">
+    <a class="folder is-active" href="#nostalgia" style="--c:#ddd4e7">
+      <div class="folder__body">
+        <svg class="ic folder__icon"><use href="#i-sparkle"/></svg>
+        <span class="folder__count">24</span>
+        <h3>Ностальгия</h3>
+        <p>Хочется вернуться</p>
+        <svg class="ic folder__arrow"><use href="#i-arrow"/></svg>
+      </div>
+    </a>
+    <a class="folder" href="#joy" style="--c:#d5dfd0">
+      <div class="folder__body">
+        <svg class="ic folder__icon"><use href="#i-heart"/></svg>
+        <span class="folder__count">18</span>
+        <h3>Радость</h3>
+        <p>Тепло внутри</p>
+        <svg class="ic folder__arrow"><use href="#i-arrow"/></svg>
+      </div>
+    </a>
+    <a class="folder" href="#sadness" style="--c:#d8dde6">
+      <div class="folder__body">
+        <svg class="ic folder__icon"><use href="#i-music"/></svg>
+        <span class="folder__count">12</span>
+        <h3>Грусть</h3>
+        <p>Тоже часть истории</p>
+        <svg class="ic folder__arrow"><use href="#i-arrow"/></svg>
+      </div>
+    </a>
+    <a class="folder" href="#anger" style="--c:#e5d6cc">
+      <div class="folder__body">
+        <svg class="ic folder__icon"><use href="#i-sparkle-plus"/></svg>
+        <span class="folder__count">07</span>
+        <h3>Злость</h3>
+        <p>Можно просто отпустить</p>
+        <svg class="ic folder__arrow"><use href="#i-arrow"/></svg>
+      </div>
+    </a>
+  </div>
+
+  <div class="inside" id="nostalgia">
+    <p class="eyebrow eyebrow--sm"><i class="dot"></i>Внутри «Ностальгия»</p>
+    <i class="inside__line"></i>
+    <span class="inside__tag">маленькие фрагменты жизни</span>
+  </div>
+
+  <div class="gallery">
+    <div class="gallery__item ph-beach" role="img" aria-label="Пляж на закате"></div>
+    <div class="gallery__item ph-coffee" role="img" aria-label="Кофе вдвоём"></div>
+    <div class="gallery__item ph-road" role="img" aria-label="Дорога в горах"></div>
+  </div>
+</section>
+
+
+<section class="workshop">
+  <div class="workshop__text">
+    <p class="eyebrow"><i class="dot"></i>Мастерская воспоминаний</p>
+    <h2 class="h-lg">Собери момент<br><em>заново.</em></h2>
+    <p class="workshop__lead">
+      У воспоминаний нет одного формата.<br>
+      Соединяй фотографии, слова и музыку —<br>
+      так, как чувствуешь именно ты.
+    </p>
+
+    <div class="toggles" role="tablist">
+      <button class="toggle is-on" type="button" role="tab" aria-selected="true">
+        <svg class="ic"><use href="#i-grid"/></svg>Коллажи
+      </button>
+      <button class="toggle" type="button" role="tab" aria-selected="false">
+        <svg class="ic"><use href="#i-play"/></svg>Слайд-шоу
+      </button>
+    </div>
+
+    <a class="link-ul" href="vhod.html">
+      <span>Дать форму воспоминанию</span>
+      <svg class="ic"><use href="#i-arrow"/></svg>
+    </a>
+  </div>
+
+  <div class="board" aria-label="Пример коллажа">
+    <div class="board__bar">
+      <span class="eyebrow eyebrow--xs"><i class="dot"></i>Моё маленькое лето</span>
+      <svg class="ic"><use href="#i-sparkle"/></svg>
+    </div>
+    <div class="board__body">
+      <p class="hand board__hand">там, где хорошо</p>
+      <svg class="ic board__heart"><use href="#i-heart"/></svg>
+
+      <figure class="polaroid b-beach">
+        <span class="tape tape--board"></span>
+        <div class="polaroid__photo ph-beach"></div>
+        <figcaption>солнце, море и мы</figcaption>
+      </figure>
+
+      <figure class="polaroid b-sunset">
+        <div class="polaroid__photo ph-sunset"></div>
+        <figcaption>август пахнет так</figcaption>
+      </figure>
+
+      <div class="sticky">
+        <p>Не было ничего особенного.<br>И было всё.</p>
+        <span class="hand">12 августа</span>
+      </div>
+    </div>
+    <div class="board__foot">
+      <svg class="ic"><use href="#i-grid"/></svg>
+      Собрано из 3 тёплых моментов
+    </div>
+  </div>
+</section>
+
+
+<section class="closer">
+  <div class="closer__head">
+    <p class="eyebrow eyebrow--center"><i class="dot"></i>Твоё личное пространство</p>
+    <h2 class="h-lg">Чуть ближе <em>к себе.</em></h2>
+    <p class="closer__lead">Не только хранить прошлое. Лучше чувствовать настоящее.</p>
+  </div>
+
+  <div class="closer__grid">
+    
+    <article class="feature">
+      <div class="calendar">
+        <div class="calendar__top">
+          <span>Август 2025</span>
+          <svg class="ic"><use href="#i-sparkle"/></svg>
+        </div>
+        <div class="calendar__grid">
+          <b>П</b><b>В</b><b>С</b><b>Ч</b><b>П</b><b>С</b><b>В</b>
+          <i></i><i></i><i></i><i></i>
+          <span>1</span><span>2</span><span class="m-lilac">3</span>
+          <span>4</span><span>5</span><span>6</span><span class="m-sage">7</span><span>8</span><span>9</span><span>10</span>
+          <span>11</span><span class="m-lilac">12</span><span>13</span><span class="m-deep">14</span><span>15</span><span>16</span><span>17</span>
+          <span>18</span><span class="m-sage">19</span><span>20</span><span>21</span><span>22</span><span class="m-lilac">23</span><span>24</span>
+          <span>25</span><span class="m-lilac">26</span><span>27</span><span>28</span><span>29</span><span>30</span><span>31</span>
+        </div>
+        <p class="calendar__foot">14 августа · маленький счастливый день</p>
+      </div>
+      <h3 class="feature__title">У каждого дня свой цвет</h3>
+      <p class="feature__text">Календарь настроений помогает увидеть<br>больше, чем просто прошедшие дни.</p>
+    </article>
+
+   
+    <article class="feature">
+      <div class="journey">
+        <svg class="journey__path" viewBox="0 0 548 434" preserveAspectRatio="none" aria-hidden="true">
+          <path d="M62 322 C 90 305, 105 290, 112 250 M165 190 C 215 205, 235 240, 250 264 C 285 250, 320 190, 350 140 C 365 115, 400 105, 482 96" fill="none" stroke="#a99bc2" stroke-width="3" stroke-dasharray="7 9" stroke-linecap="round"/>
+          <circle cx="62" cy="322" r="9" fill="#bccbb4"/>
+          <circle cx="249" cy="220" r="9" fill="#a99bc2"/>
+          <circle cx="481" cy="94" r="9" fill="#bccbb4"/>
+        </svg>
+        <span class="journey__here hand">ты здесь</span>
+        <figure class="polaroid j-forest"><div class="polaroid__photo ph-forest"></div></figure>
+        <figure class="polaroid j-beach"><div class="polaroid__photo ph-beach"></div></figure>
+      </div>
+      <h3 class="feature__title">Твоя история — в движении</h3>
+      <p class="feature__text">Замечай, как меняешься. Собирай<br>свой путь из маленьких открытий.</p>
+    </article>
+
+
+    <article class="feature">
+      <div class="ai">
+        <svg class="ic ai__star"><use href="#i-sparkle-plus"/></svg>
+        <div class="ai__q">
+          <p>Какой момент сегодня<br>ты бы прожил ещё раз?</p>
+          <small>Вопрос для себя</small>
+        </div>
+        <div class="ai__a hand">пожалуй, утренний кофе...</div>
+      </div>
+      <h3 class="feature__title">Иногда нужен просто собеседник</h3>
+      <p class="feature__text">AI-компаньон — бережный собеседник,<br>который поможет услышать себя.</p>
+      <span class="pill">В планах проекта</span>
+    </article>
+  </div>
+</section>
+
+
+<section class="quote">
+  <div class="quote__inner">
+    <svg class="ic quote__star"><use href="#i-sparkle-plus"/></svg>
+    <h2>Иногда хочется сохранить<br>не событие, <em>а ощущение.</em></h2>
+    <p class="hand quote__hand">и это тоже важно.</p>
+    <p class="quote__small">Не обязательно объяснять. Достаточно почувствовать.</p>
+  </div>
+</section>
+
+
+<section class="cta" id="start">
+  <p class="eyebrow eyebrow--center"><i class="dot"></i>Продолжение твоей истории</p>
+  <h2 class="h-xxl">
+    <svg class="ic h-star h-star--cta"><use href="#i-sparkle"/></svg>
+    Оставь здесь то,<br>что <em>важно.</em>
+  </h2>
+  <p class="cta__lead">Одна фотография. Одна мысль. Один момент.<br>Иногда этого достаточно, чтобы начать.</p>
+
+  <a class="btn btn--xl" href="vhod.html">
+    <span>Создать своё пространство</span>
+    <svg class="ic"><use href="#i-arrow"/></svg>
+  </a>
+
+  <p class="cta__private"><svg class="ic"><use href="#i-lock"/></svg>Личное. Неспешное. Твоё.</p>
+
+  <p class="hand cta__hand">память начинается с малого</p>
+  <svg class="ic cta__star"><use href="#i-sparkle-plus"/></svg>
+</section>
+
+
+<footer class="footer">
+  <div class="footer__brand">
+    <a class="logo" href="#about" aria-label="AFTERTONE">
+      <span>AFTERTONE</span>
+      <svg class="ic logo__star"><use href="#i-sparkle-plus"/></svg>
+    </a>
+    <p>То, что остаётся с тобой.</p>
+  </div>
+  <nav class="footer__nav" aria-label="Футер">
+    <a href="#about">О проекте</a>
+    <a href="#features">Возможности</a>
+    <a href="#contact">Связаться</a>
+  </nav>
+  <p class="hand footer__hand">с заботой о твоих историях</p>
+</footer>
+
+<button class="help" type="button" aria-label="Помощь">?</button>
+
+</body>
+</html>

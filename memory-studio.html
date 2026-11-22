@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AFTERTONE — Новое воспоминание</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700&family=Noto+Serif:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="dashboard.css">
+  <link rel="stylesheet" href="memory.css">
+</head>
+<body class="editor-body">
+  <header class="editor-topbar">
+    <a class="brand" href="dashboard.html">AFTERTONE<span>.</span></a>
+    <a class="back-link" href="dashboard.html">← Вернуться в архив</a>
+  </header>
+
+  <main class="editor-main">
+    <div class="editor-heading">
+      <p class="eyebrow">MEMORY STUDIO</p>
+      <h1>Сохрани этот момент.</h1>
+      <p>Фотография, несколько строк и песня — всё, что делает этот день твоим.</p>
+    </div>
+
+    <div class="editor-layout">
+      <section class="editor-form">
+        <div class="form-section">
+          <span class="step-number">01</span>
+          <div class="form-section-content">
+            <h2>О чём хочется помнить?</h2>
+            <label class="field-label" for="memoryTitle">Название момента</label>
+            <input id="memoryTitle" type="text" placeholder="Например, обычный хороший день">
+            <label class="field-label" for="memoryText">Твоя история</label>
+            <textarea id="memoryText" placeholder="Запиши здесь то, что хочется сохранить..."></textarea>
+
+<div class="voice-controls">
+  <button type="button" id="voiceButton" class="voice-button">
+    <span id="voiceIcon">🎙</span>
+    <span id="voiceButtonText">Записать голос</span>
+  </button>
+  <span id="voiceStatus" class="voice-status">
+    Можно надиктовать свою историю
+  </span>
+</div>
+            <label class="field-label" for="memoryDate">Дата этого момента</label>
+            <input id="memoryDate" type="date">
+          </div>
+        </div>
+
+        <div class="form-section">
+          <span class="step-number">02</span>
+          <div class="form-section-content">
+            <h2>Добавь фотографии</h2>
+            <p class="form-hint">Они станут коллажем на левой странице блокнота. Можно выбрать несколько.</p>
+            <label class="upload-area" for="memoryPhotos">
+              <span class="upload-plus">+</span>
+              <strong>Выбрать фотографии</strong>
+              <small>JPG, PNG · можно добавить несколько</small>
+            </label>
+            <input id="memoryPhotos" type="file" accept="image/*" multiple hidden>
+            <div class="photo-thumbnails" id="photoThumbnails"></div>
+          </div>
+        </div>
+
+        <div class="form-section">
+          <span class="step-number">03</span>
+          <div class="form-section-content">
+            <h2>Какая песня будет рядом?</h2>
+            <p class="form-hint">Добавь название и, если есть, ссылку на трек.</p>
+            <label class="field-label" for="songTitle">Название песни и исполнитель</label>
+            <input id="songTitle" type="text" placeholder="Песня — исполнитель">
+            <label class="field-label" for="songUrl">Ссылка на песню</label>
+            <input id="songUrl" type="url" placeholder="https://...">
+          </div>
+        </div>
+
+        <div class="form-section">
+          <span class="step-number">04</span>
+          <div class="form-section-content">
+            <h2>Выбери папку</h2>
+            <select id="memoryFolder"><option value="">Без папки</option></select>
+          </div>
+        </div>
+
+        <div class="form-section generation-section">
+          <span class="step-number">05</span>
+        
+          <div class="form-section-content">
+            <h2>Во что превратить этот момент?</h2>
+            <p class="form-hint">
+              Выбери формат, а AFTERTONE поможет создать историю из твоих материалов.
+            </p>
+        
+            <div class="generation-options">
+        
+              <button type="button" class="generation-option selected"
+                data-format="collage">
+                <span class="format-icon">▧</span>
+                <strong>Коллаж</strong>
+                <small>Фотографии в стиле scrapbook</small>
+              </button>
+        
+              <button type="button" class="generation-option"
+                data-format="slideshow">
+                <span class="format-icon">▤</span>
+                <strong>Слайдшоу</strong>
+                <small>Последовательность кадров и переходы</small>
+              </button>
+        
+              <button type="button" class="generation-option"
+                data-format="video">
+                <span class="format-icon">▷</span>
+                <strong>Видео</strong>
+                <small>Короткий памятный ролик</small>
+              </button>
+        
+            </div>
+        
+            <label class="field-label" for="memoryMood">
+              Настроение оформления
+            </label>
+        
+            <select id="memoryMood">
+              <option value="auto" selected>Подобрать автоматически (по тексту, фото и песне)</option>
+              <option value="nostalgic">Ностальгическое</option>
+              <option value="warm">Тёплое и уютное</option>
+              <option value="minimal">Минималистичное</option>
+              <option value="dreamy">Мечтательное</option>
+              <option value="playful">Яркое и игривое</option>
+            </select>
+        
+            <button type="button" id="generateMemory" class="generate-button">
+              Собрать воспоминание ↗
+            </button>
+        
+            <p id="generationStatus" class="generation-status">
+              Сначала заполни воспоминание и выбери формат.
+            </p>
+        
+            <div id="generationResult" class="generation-result" hidden>
+              <p>Твоё воспоминание готово!</p>
+              <a id="generatedLink" href="#" target="_blank" rel="noopener">
+                Открыть результат ↗
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <button class="save-memory-button" id="saveMemory" type="button">Сохранить воспоминание <span>↗</span></button>
+        <p class="save-note">Все части останутся вместе в одном воспоминании.</p>
+      </section>
+
+      <aside class="preview-column">
+        <div class="preview-label"><span class="eyebrow">ТВОЙ БУДУЩИЙ РАЗВОРОТ</span><span class="preview-live">ПРЕДПРОСМОТР</span></div>
+        <div class="notebook" id="notebookPreview">
+          <div class="notebook-page left-page">
+            <div class="paper-tape"></div>
+            <p class="collage-date" id="previewDate">МОЙ МОМЕНТ</p>
+            <div class="collage-photos" id="previewPhotos">
+              <div class="photo-placeholder">Здесь будет<br>твоя фотография</div>
+            </div>
+            <p class="collage-handwriting" id="previewTitle">маленькая история</p>
+            <span class="page-number">01</span>
+          </div>
+          <div class="notebook-page right-page">
+            <p class="right-page-date" id="previewRightDate">ДАТА</p>
+            <h2 id="previewRightTitle">Однажды...</h2>
+            <p class="preview-note-text" id="previewText">Твои слова появятся здесь. Напиши о том, что происходило, что ты чувствовала и почему хочется сохранить этот день.</p>
+            <div class="song-slip">
+              <span class="song-note">♫</span>
+              <div><small>ЗВУЧАЛО В ТОТ ДЕНЬ</small><strong id="previewSong">Песня пока не добавлена</strong></div>
+            </div>
+            <span class="page-number">02</span>
+          </div>
+        </div>
+        <p class="preview-caption">Каждое воспоминание — отдельный разворот твоего блокнота.</p>
+      </aside>
+    </div>
+  </main>
+  <script src="api.js"></script>
+  <script src="memory-studio.js"></script>
+</body>
+</html>

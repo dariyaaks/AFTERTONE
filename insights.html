@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AFTERTONE — Итоги</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Playfair+Display:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="cinema.css">
+<style>
+body{margin:0;background:#f6f2ea;color:#39343b;font:16px/1.5 "DM Sans",sans-serif}a{color:inherit}
+header{display:flex;justify-content:space-between;align-items:center;padding:20px 5vw;border-bottom:1px solid #e5ded6}.brand{font:500 20px "Playfair Display",serif;letter-spacing:.1em;text-decoration:none}
+main{max-width:1060px;margin:0 auto;padding:36px 5vw 90px}
+.eb{font-size:11px;letter-spacing:.2em;color:#89817f;margin:0 0 6px}h1{font:400 clamp(30px,5vw,46px) "Playfair Display",serif;margin:0 0 6px}h2{font:400 26px "Playfair Display",serif;margin:0 0 14px}
+.box{background:#fffefb;border:1px solid #e5ded6;padding:24px 26px;margin:24px 0;overflow-x:auto}
+.heat{display:grid;grid-auto-flow:column;grid-template-rows:repeat(7,14px);gap:3px;width:max-content}.heat a,.heat i{width:14px;height:14px;border-radius:3px;background:#ebe5dc;display:block}.heat a:hover{outline:2px solid #39343b}
+.legend{font-size:12px;color:#89817f;margin-top:10px}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px}.stat{border:1px solid #eee5dc;padding:14px 16px}.stat b{display:block;font:400 34px "Playfair Display",serif}.stat span{font-size:12px;letter-spacing:.1em;color:#89817f}
+.bar{display:flex;align-items:center;gap:10px;margin:7px 0;font-size:14px}.bar i{display:block;height:10px;background:#a99abd;border-radius:5px}
+.av{display:flex;gap:16px;overflow-x:auto;padding-bottom:6px}.av div{text-align:center;font-size:12px;color:#77716f;min-width:96px}
+select,button.go{font:inherit;padding:9px 14px;border:1px solid #d8cfc4;background:#fff;border-radius:10px}button.go{background:#a99abd;color:#fff;border:0;cursor:pointer;margin-left:8px}
+.covers{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px;margin-top:16px}.covers a{display:block;text-decoration:none;font-size:13px}.covers img{width:100%;height:150px;object-fit:cover;display:block}
+#reel{position:fixed;inset:0;z-index:60;display:none;align-items:center;justify-content:center;flex-direction:column;color:#fff;background:#222;transition:background 1s}
+#reel.on{display:flex}#reel img{width:min(78vw,420px);height:min(62vh,520px);object-fit:cover;box-shadow:0 20px 60px #0007;animation:kb 3.2s ease-out both}@keyframes kb{from{transform:scale(1);opacity:.2}15%{opacity:1}to{transform:scale(1.08)}}
+#reel h3{font:400 28px "Playfair Display",serif;margin:22px 0 4px}#reel small{opacity:.8}#reel button{position:absolute;top:18px;right:22px;background:none;border:0;color:#fff;font-size:34px;cursor:pointer}
+.empty{color:#77716f}
+</style>
+</head>
+<body>
+<header><a class="brand" href="dashboard.html">AFTERTONE</a><a href="dashboard.html" style="font-size:14px">← В архив</a></header>
+<main>
+  <p class="eb">ТВОЯ ИСТОРИЯ В ЦВЕТАХ</p><h1>Итоги</h1>
+  <p class="empty" id="none" style="display:none">Здесь появятся итоги, когда ты сохранишь первые воспоминания.</p>
+  <div id="body" style="display:none">
+    <div class="box"><h2>Мой год в цвете</h2><div class="heat" id="heat"></div><p class="legend">Каждый квадрат — день. Цвет берётся из палитры этого дня. Нажми, чтобы открыть.</p></div>
+    <div class="box"><h2>Настроение последних дней</h2><div class="av" id="avs"></div></div>
+    <div class="box"><h2>Коротко о тебе и дневнике</h2><div class="stats" id="stats"></div><div id="styles" style="margin-top:18px"></div><div id="songs" style="margin-top:18px"></div></div>
+    <div class="box"><h2>Итоги месяца</h2><select id="month"></select><button class="go" id="play">▶ Ролик месяца</button><div class="covers" id="covers"></div></div>
+  </div>
+</main>
+<div id="reel"><button id="rx" aria-label="Закрыть">×</button><img id="ri" alt=""><h3 id="rt"></h3><small id="rd"></small></div>
+<script src="api.js"></script>
+<script src="player.js"></script>
+<script>
+const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+const fmt = (d, o) => new Date(d + "T12:00:00").toLocaleDateString("ru-RU", o || { day: "numeric", month: "long", year: "numeric" });
+const iso = (d) => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+(async () => {
+  const { items } = await AT.api("/days?limit=100");
+  if (!items.length) { none.style.display = "block"; return; }
+  body.style.display = "block";
+  const byDate = new Map(); [...items].sort((a, b) => a.date.localeCompare(b.date) || a.id - b.id).forEach((c) => byDate.set(c.date, c));
+
+  // год в цвете: колонки — недели (пн–вс), заканчиваем сегодняшним днём
+  const end = new Date(); end.setHours(12, 0, 0, 0);
+  const start = new Date(end); start.setDate(start.getDate() - 7 * 52 - ((end.getDay() + 6) % 7));
+  let h = "";
+  for (let d = new Date(start); d <= end; d.setDate(d.getDate() + 1)) {
+    const c = byDate.get(iso(d));
+    h += c ? `<a href="memory.html?id=${c.id}" title="${esc(fmt(c.date))} · ${esc(c.title)}" style="background:${c.accent || "#a99abd"}"></a>` : "<i></i>";
+  }
+  heat.innerHTML = h;
+
+  // аватары последних семи дней
+  const last = [...byDate.values()].slice(-7).reverse();
+  avs.innerHTML = last.map((c) => {
+    const v = c.valence ?? 0, e = c.energy ?? 0.5;
+    const av = { expression: { mouthCurve: v, browAngle: Math.max(-1, Math.min(1, -v * 0.6)), eyeOpenness: 0.55 + 0.4 * e, blush: v > 0.3 && e < 0.5 }, aura: { color: c.accent || "#a99abd", intensity: 0.3 + 0.6 * e, radius: 1.1 }, breathPerMin: Math.round(10 + 12 * e), props: [], outfit: "", label: c.moodLabel || "" };
+    return `<div>${avatarSvg(av, 92)}<br>${esc(fmt(c.date, { day: "numeric", month: "short" }))}<br>${esc(c.moodLabel || "")}</div>`;
+  }).join("");
+
+  // статистика
+  const dates = [...byDate.keys()];
+  let best = 1, run = 1;
+  for (let i = 1; i < dates.length; i++) { run = (new Date(dates[i]) - new Date(dates[i - 1])) / 864e5 === 1 ? run + 1 : 1; best = Math.max(best, run); }
+  const count = (key) => { const m = {}; items.forEach((c) => c[key] && (m[c[key]] = (m[c[key]] || 0) + 1)); return Object.entries(m).sort((a, b) => b[1] - a[1]); };
+  const moods = count("moodLabel"), styles = count("styleLabel"), songs = count("song");
+  stats.innerHTML = [[items.length, "ВОСПОМИНАНИЙ"], [best, "ДНЕЙ ПОДРЯД (РЕКОРД)"], [moods[0]?.[0] || "—", "ЧАЩЕ ВСЕГО ДЕНЬ"], [styles[0]?.[0]?.split(" · ")[0] || "—", "ЛЮБИМЫЙ ПРИЁМ"]].map(([n, l]) => `<div class="stat"><b style="${String(n).length > 6 ? "font-size:20px;padding:8px 0" : ""}">${esc(n)}</b><span>${l}</span></div>`).join("");
+  const bars = (list, title) => list.length ? `<p class="eb">${title}</p>` + list.slice(0, 5).map(([k, n]) => `<div class="bar"><span style="min-width:190px">${esc(k)}</span><i style="width:${Math.max(8, (n / list[0][1]) * 180)}px"></i> ${n}</div>`).join("") : "";
+  document.getElementById("styles").innerHTML = bars(styles, "КАКИМИ ПРИЁМАМИ ОФОРМЛЕНЫ ТВОИ ДНИ");
+  document.getElementById("songs").innerHTML = bars(songs, "ПЕСНИ, КОТОРЫЕ ЗВУЧАЛИ ЧАЩЕ ВСЕГО");
+
+  // итоги месяца и ролик
+  const months = [...new Set(dates.map((d) => d.slice(0, 7)))].sort().reverse();
+  month.innerHTML = months.map((m) => `<option value="${m}">${new Date(m + "-15T12:00:00").toLocaleDateString("ru-RU", { month: "long", year: "numeric" })}</option>`).join("");
+  const inMonth = () => items.filter((c) => c.date.startsWith(month.value)).sort((a, b) => a.date.localeCompare(b.date));
+  const drawMonth = () => { covers.innerHTML = inMonth().map((c) => `<a href="memory.html?id=${c.id}"><img src="${c.cover}" alt="">${esc(c.title)}</a>`).join(""); };
+  month.onchange = drawMonth; drawMonth();
+  let timer;
+  play.onclick = () => {
+    const list = inMonth(); if (!list.length) return;
+    let i = 0; reel.classList.add("on");
+    const show = () => { const c = list[i % list.length]; reel.style.background = c.accent || "#222"; const img = ri; img.style.animation = "none"; void img.offsetWidth; img.style.animation = ""; img.src = c.cover; rt.textContent = c.title; rd.textContent = fmt(c.date) + (c.song ? " · ♫ " + c.song : ""); i++; if (i <= list.length) timer = setTimeout(show, 3200); else rx.click(); };
+    show();
+  };
+  rx.onclick = () => { clearTimeout(timer); reel.classList.remove("on"); };
+})().catch((e) => { none.style.display = "block"; none.textContent = e.message; });
+</script>
+</body>
+</html>

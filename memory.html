@@ -1,0 +1,78 @@
+
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AFTERTONE — Воспоминание</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;500&family=DM+Sans:wght@400;500;600&family=Playfair+Display:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="dashboard.css">
+  <link rel="stylesheet" href="memory.css">
+  <link rel="stylesheet" href="cinema.css">
+</head>
+
+<body class="detail-body">
+
+  <header class="editor-topbar">
+    <a class="brand" href="dashboard.html">AFTERTONE<span>.</span></a>
+    <a class="back-link" href="dashboard.html">← Вернуться в архив</a>
+  </header>
+
+  <main class="detail-main">
+
+    <div class="detail-heading">
+      <p class="eyebrow">ОДИН МОМЕНТ ИЗ ТВОЕЙ ИСТОРИИ</p>
+      <h1 id="detailTitle">Воспоминание</h1>
+      <p id="detailDate"></p>
+    </div>
+
+ 
+    <div class="notebook detail-notebook" id="mainNotebook">
+
+      <section class="notebook-page left-page">
+        <div class="paper-tape"></div>
+        <p class="collage-date" id="detailPhotoDate"></p>
+        <div class="collage-photos" id="detailPhotos"></div>
+        <p class="collage-handwriting" id="detailCaption"></p>
+        <span class="page-number">01</span>
+      </section>
+
+      <section class="notebook-page right-page">
+        <p class="right-page-date" id="detailRightDate"></p>
+        <h2 id="detailRightTitle"></h2>
+        <p class="preview-note-text detail-note" id="detailText"></p>
+
+        <div class="song-slip" id="detailSong">
+          <span class="song-note">♫</span>
+          <div>
+            <small>ЗВУЧАЛО В ТОТ ДЕНЬ</small>
+            <strong id="detailSongTitle"></strong>
+            <a id="detailSongLink" target="_blank" rel="noopener">Открыть песню ↗</a>
+          </div>
+        </div>
+
+        <span class="page-number">02</span>
+      </section>
+
+    </div>
+
+ 
+    <div id="detailContinuations"></div>
+    <section id="cinema" aria-label="Кино твоего дня"></section>
+
+    <p class="detail-bottom-note">
+      Некоторые дни хочется сохранить именно такими.
+    </p>
+
+  </main>
+
+  <script src="api.js"></script>
+  <script src="player.js"></script>
+  <script src="memory.js"></script>
+</body>
+</html>
+

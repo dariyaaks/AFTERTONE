@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AFTERTONE — Воспоминание</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Playfair+Display:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="cinema.css">
+<style>
+body{margin:0;background:#f6f2ea;color:#39343b;font:16px/1.5 "DM Sans",sans-serif}
+header{display:flex;justify-content:space-between;padding:20px 5vw;border-bottom:1px solid #e5ded6}header a{color:inherit;text-decoration:none;font:500 20px "Playfair Display",serif;letter-spacing:.1em}
+main{padding:10px 5vw 80px}.by{text-align:center;color:#77716f;margin:24px 0 0}
+.box{max-width:760px;margin:30px auto;background:#fffefb;border:1px solid #e5ded6;border-radius:20px;padding:26px}
+h2{font:400 26px "Playfair Display",serif;margin:0 0 14px}
+.rx{display:flex;gap:10px;flex-wrap:wrap}.rx button{border:1px solid #d8cfc4;background:#fff;border-radius:999px;padding:9px 16px;cursor:pointer;font:inherit}.rx button.on{background:#e8e1f0;border-color:#a99abd}
+textarea{width:100%;min-height:70px;border:1px solid #e5ded6;border-radius:12px;padding:10px 12px;font:inherit}
+.send{margin-top:8px;background:#a99abd;color:#fff;border:0;border-radius:12px;padding:10px 20px;cursor:pointer;font:inherit}
+.c{border-top:1px solid #eee5dc;padding:12px 0}.c small{color:#89817f}.c button{border:0;background:none;color:#a04c4c;cursor:pointer;margin-left:8px}
+.err{color:#a04c4c}
+</style>
+</head>
+<body>
+<header><a href="index.html">AFTERTONE</a><a href="dashboard.html" id="mine" style="font:500 14px 'DM Sans',sans-serif;letter-spacing:0">Мой дневник</a></header>
+<main>
+  <section id="cinema"></section>
+  <p class="by" id="by"></p>
+  <div class="box"><h2>Как это ощущается?</h2><div class="rx" id="rx"></div><p class="err" id="rxErr"></p></div>
+  <div class="box"><h2>Комментарии</h2><div id="cmForm"></div><div id="cmList"></div></div>
+</main>
+<script>window.AT_PUBLIC = true;</script>
+<script src="api.js"></script>
+<script src="player.js"></script>
+<script>
+const slug = new URLSearchParams(location.search).get("s");
+const kinds = { warm: "🤍 тепло", cozy: "☕ уют", chills: "✨ мурашки", nostalgic: "📼 ностальгия", spark: "⚡ искра" };
+const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+const me = AT.token;
+const call = async (path, o = {}) => AT.api(path, o);
+async function load() {
+  try {
+    const { day } = await call("/public/" + encodeURIComponent(slug));
+    document.title = "AFTERTONE — " + day.title;
+    mountPlayer(day, { owner: false });
+    document.getElementById("by").innerHTML = `<a href="profile.html?u=${encodeURIComponent(day.author.username)}" style="color:inherit">${esc(day.author.displayName)}</a> · ${new Date(day.date + "T12:00:00").toLocaleDateString("ru-RU", { day: "numeric", month: "long", year: "numeric" })}`;
+    drawReactions(day.reactions, day.myReaction);
+    loadComments();
+  } catch (e) { document.querySelector("main").innerHTML = '<p class="by">Это воспоминание недоступно или автор закрыл к нему доступ.</p>'; }
+}
+function drawReactions(counts, mine) {
+  rx.innerHTML = Object.entries(kinds).map(([k, l]) => `<button data-k="${k}" class="${mine === k ? "on" : ""}">${l} ${counts[k] || ""}</button>`).join("");
+}
+rx.onclick = async (e) => {
+  const k = e.target.closest("button")?.dataset.k; if (!k) return;
+  if (!me) { rxErr.innerHTML = 'Чтобы отреагировать, <a href="vhod.html">войди</a>.'; return; }
+  try { const r = await call(`/public/${slug}/reaction`, { method: "PUT", json: { kind: k } }); drawReactions(r.reactions, r.myReaction); rxErr.textContent = ""; } catch (err) { rxErr.textContent = err.message; }
+};
+async function loadComments() {
+  const r = await call(`/public/${slug}/comments`);
+  cmForm.innerHTML = !r.enabled ? "<p>Автор отключил комментарии.</p>" : me ? '<textarea id="cmText" maxlength="500" placeholder="Напиши тёплое слово…"></textarea><button class="send" id="cmSend">Отправить</button><p class="err" id="cmErr"></p>' : '<p><a href="vhod.html">Войди</a>, чтобы оставить комментарий.</p>';
+  cmList.innerHTML = r.items.map((c) => `<div class="c"><b>${esc(c.author.displayName)}</b> <small>${new Date(c.createdAt.replace(" ", "T") + "Z").toLocaleDateString("ru-RU")}</small>${c.canDelete ? `<button data-d="${c.id}">удалить</button>` : ""}<br>${esc(c.body)}</div>`).join("") || '<p class="by">Пока тихо. Напиши первым.</p>';
+}
+document.addEventListener("click", async (e) => {
+  try {
+    if (e.target.id === "cmSend") { await call(`/public/${slug}/comments`, { method: "POST", json: { body: cmText.value } }); loadComments(); }
+    const d = e.target.dataset?.d; if (d) { await call("/comments/" + d, { method: "DELETE" }); loadComments(); }
+  } catch (err) { const el = document.getElementById("cmErr"); if (el) el.textContent = err.message; }
+});
+if (!me) mine.textContent = "Войти";
+if (!slug) document.querySelector("main").innerHTML = '<p class="by">Нет ссылки на воспоминание.</p>'; else load();
+</script>
+</body>
+</html>
